@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Cursor from "@/components/ui/cursor";  
 
 export const metadata: Metadata = {
   title: "Андрей Мелехов — Разработчик сайтов для бизнеса",
@@ -30,6 +31,7 @@ export default function RootLayout({
   return (
     <html lang="ru" className="scroll-smooth">
       <body className="bg-background text-text-primary antialiased">
+        <Cursor />
         {children}
       </body>
     </html>

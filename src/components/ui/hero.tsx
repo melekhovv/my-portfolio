@@ -49,9 +49,6 @@ export function Hero() {
               >
                 Разработчик сайтов, которые помогают бизнесу расти.
                 <br />
-                <span className="text-text-tertiary">
-                  Сайт должен приносить деньги, а не высасывать их.
-                </span>
               </motion.p>
             </div>
 

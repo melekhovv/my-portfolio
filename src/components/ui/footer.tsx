@@ -6,9 +6,9 @@ import { Github, Send, Mail } from "lucide-react";
 import { Reveal } from "./reveal";
 
 const socialLinks = [
-  { label: "Telegram", href: "https://t.me/username", icon: Send },
-  { label: "GitHub", href: "https://github.com/username", icon: Github },
-  { label: "Email", href: "mailto:hello@andreymelekhov.com", icon: Mail },
+  { label: "Telegram", href: "https://t.me/andrei_melekhov", icon: Send },
+  { label: "GitHub", href: "https://github.com/melekhovv", icon: Github },
+  { label: "Email", href: "mailto:anrewje@gmail.com", icon: Mail },
 ];
 
 export function Footer() {

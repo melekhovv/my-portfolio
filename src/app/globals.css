@@ -17,6 +17,27 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+/* cursor ver.1 */
+  html,
+  body,
+  * {
+    cursor: none !important;
+  }
+
+  a,
+  button,
+  input,
+  textarea {
+    cursor: none;
+  }
+
+  html {
+    cursor: none !important;
+  } 
+
+  body {
+    cursor: none !important;
+  }
   body {
     background-color: #0A0A0A;
     color: #ffffff;
