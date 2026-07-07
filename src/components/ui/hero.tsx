@@ -1,158 +1,144 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { Button } from "./button";
-import { projects } from "@/data/projects";
 
-const miniCards = projects.slice(0, 3);
+const featuredCases = [
+  {
+    title: "Клиника крови",
+    type: "медицинский сервис",
+    metric: "донорство онлайн",
+  },
+  {
+    title: "BuildEstate",
+    type: "недвижимость",
+    metric: "3D-подбор квартир",
+  },
+  {
+    title: "CraftStore",
+    type: "e-commerce",
+    metric: "заказы без Instagram",
+  },
+];
+
+const stats = [
+  { value: "30+", label: "проектов" },
+  { value: "4 года", label: "опыта" },
+  { value: "5 сфер", label: "бизнеса" },
+];
 
 export function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center pt-24 pb-16 overflow-hidden">
-      {/* Ambient glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-white/[0.015] rounded-full blur-[100px] pointer-events-none" />
+    <section className="relative min-h-screen overflow-hidden border-b border-white/[0.06] bg-[#070707] pt-24 text-white">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:112px_112px]" />
+        <div className="absolute inset-y-0 right-[-12%] w-2/5 rotate-12 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.13),transparent)] blur-2xl" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,7,7,0.1)_0%,rgba(7,7,7,0.8)_100%)]" />
+      </div>
 
-      <div className="max-w-7xl mx-auto px-6 w-full">
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
-          {/* Left */}
-          <div className="space-y-8">
-            <div className="space-y-6">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+      <div className="relative mx-auto grid min-h-[calc(100vh-6rem)] w-full max-w-7xl items-center gap-10 px-6 pb-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(430px,0.8fr)] lg:gap-14">
+        <div className="flex flex-col justify-center">
+          <motion.h1
+            initial={{ opacity: 0, y: 36 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.08, ease: [0.25, 0.1, 0.25, 1] }}
+            className="text-gradient max-w-4xl text-6xl font-semibold leading-[0.96] tracking-normal md:text-7xl lg:text-8xl"
+          >
+            Андрей
+            <br />
+            Мелехов
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+            className="mt-8 max-w-xl border-t border-white/[0.08] pt-6 text-base leading-7 text-white/62 md:text-lg"
+          >
+            Сразу показываю кейсы: интерфейсы, визуальный уровень и бизнес-задачи.
+            За пару секунд понятно, подходит ли вам мой подход.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+            className="mt-7 flex flex-wrap gap-4"
+          >
+            <Button href="#projects" variant="primary" size="lg" className="rounded-md shadow-[0_0_34px_rgba(255,255,255,0.12)]">
+              Посмотреть проекты
+              <ArrowDown className="h-4 w-4" />
+            </Button>
+            <Button href="#cta" variant="secondary" size="lg" className="rounded-md border-white/[0.12] bg-white/[0.035]">
+              Связаться
+              <ArrowUpRight className="h-4 w-4" />
+            </Button>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.38, ease: [0.25, 0.1, 0.25, 1] }}
+            className="mt-10 flex flex-wrap gap-4"
+          >
+            {stats.map((stat) => (
+              <div key={stat.label} className="min-w-24 border-l border-white/10 pl-4">
+                <div className="text-xl font-semibold text-white">{stat.value}</div>
+                <div className="mt-1 text-[11px] uppercase text-white/38">{stat.label}</div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 34 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.22, ease: [0.25, 0.1, 0.25, 1] }}
+          className="grid gap-3 self-center lg:pt-32"
+        >
+          <div className="grid gap-3 sm:grid-cols-2">
+            {featuredCases.map((item, index) => (
+              <a
+                key={item.title}
+                href="#projects"
+                className={
+                  index === 0
+                    ? "group relative min-h-72 overflow-hidden rounded-md border border-white/[0.1] bg-white/[0.04] p-5 shadow-[0_0_60px_rgba(255,255,255,0.04)] transition duration-300 hover:-translate-y-1 hover:border-white/25 sm:col-span-2"
+                    : "group relative min-h-44 overflow-hidden rounded-md border border-white/[0.08] bg-white/[0.04] p-5 transition duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.065]"
+                }
               >
-                <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass text-caption text-text-secondary tracking-wide uppercase">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  Открыт для проектов
-                </span>
-              </motion.div>
-
-              <motion.h1
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-                className="text-display-lg max-lg:text-display leading-[1.05]"
-              >
-                <span className="text-gradient">Андрей</span>
-                <br />
-                <span className="text-gradient">Мелехов</span>
-              </motion.h1>
-
-              <motion.p
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-                className="text-body-lg text-text-secondary max-w-md leading-relaxed"
-              >
-                Разработчик сайтов, которые помогают бизнесу расти.
-                <br />
-              </motion.p>
-            </div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
-              className="flex flex-wrap gap-4"
-            >
-              <Button href="#projects" variant="primary" size="lg">
-                Посмотреть проекты
-                <ArrowDown className="w-4 h-4" />
-              </Button>
-              <Button href="#cta" variant="secondary" size="lg">
-                Связаться
-                <ArrowUpRight className="w-4 h-4" />
-              </Button>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="flex items-center gap-8 pt-4"
-            >
-              {[
-                { value: "30+", label: "Проектов" },
-                { value: "4 года", label: "Опыта" },
-                { value: "100%", label: "Результат" },
-              ].map((stat) => (
-                <div key={stat.label} className="space-y-1">
-                  <div className="text-heading text-white">{stat.value}</div>
-                  <div className="text-caption text-text-tertiary uppercase tracking-wider">
-                    {stat.label}
+                {index === 0 ? (
+                  <Image
+                    src="/projects/project-1.jpg"
+                    alt="Превью проекта Клиника крови"
+                    fill
+                    priority
+                    className="object-cover opacity-[0.72] transition duration-500 group-hover:scale-105 group-hover:opacity-90"
+                    sizes="(max-width: 1024px) 100vw, 520px"
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.14),rgba(255,255,255,0.035)_45%,rgba(255,255,255,0.09))]" />
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/92 via-black/45 to-black/10" />
+                <div className="relative flex h-full flex-col justify-between">
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="text-[10px] uppercase text-white/52">{item.type}</span>
+                    <ArrowUpRight className="h-4 w-4 text-white/55 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white" />
+                  </div>
+                  <div>
+                    <h2 className={index === 0 ? "text-3xl font-semibold text-white" : "text-xl font-semibold text-white"}>
+                      {item.title}
+                    </h2>
+                    <p className="mt-1 text-sm text-white/58">{item.metric}</p>
                   </div>
                 </div>
-              ))}
-            </motion.div>
+              </a>
+            ))}
           </div>
-
-          {/* Right — project preview cards */}
-          <div className="relative">
-            <div className="space-y-4">
-              {miniCards.map((project, index) => (
-                <motion.a
-                  key={project.id}
-                  href="#projects"
-                  initial={{ opacity: 0, x: 60, y: 20 }}
-                  animate={{ opacity: 1, x: 0, y: 0 }}
-                  transition={{
-                    duration: 0.8,
-                    delay: 0.3 + index * 0.12,
-                    ease: [0.25, 0.1, 0.25, 1],
-                  }}
-                  whileHover={{ scale: 1.02, x: -4 }}
-                  className="group block glass rounded-2xl p-5 cursor-pointer transition-all duration-500 hover:bg-white/[0.05] hover:border-white/10"
-                >
-                  <div className="flex items-start gap-4">
-                    {/* Colored placeholder for project thumbnail */}
-                    <div className="w-16 h-16 rounded-xl bg-surface-lighter flex-shrink-0 overflow-hidden relative">
-                      <div
-                        className="absolute inset-0 opacity-20"
-                        style={{
-                          background: `linear-gradient(135deg, hsl(${index * 60}, 20%, 30%) 0%, hsl(${index * 60 + 30}, 15%, 15%) 100%)`,
-                        }}
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center text-caption text-text-tertiary font-semibold">
-                        {project.title.charAt(0)}{project.title.charAt(project.title.indexOf(" ") + 1) || project.title.charAt(1)}
-                      </div>
-                    </div>
-
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between gap-3 mb-1">
-                        <h3 className="text-heading-sm text-white truncate group-hover:text-white/90 transition-colors">
-                          {project.title}
-                        </h3>
-                        <ArrowUpRight className="w-4 h-4 text-text-tertiary group-hover:text-white transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 flex-shrink-0" />
-                      </div>
-                      <p className="text-body-sm text-text-secondary truncate">
-                        {project.category}
-                      </p>
-                      <div className="flex gap-2 mt-2.5 flex-wrap">
-                        {project.stack.slice(0, 3).map((tech) => (
-                          <span
-                            key={tech}
-                            className="text-[11px] px-2 py-0.5 rounded-md bg-white/[0.04] text-text-tertiary font-medium"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </motion.a>
-              ))}
-            </div>
-
-            {/* Fade overlay at bottom */}
-            <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent pointer-events-none" />
-
-            {/* Ambient decorative elements */}
-            <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/[0.01] rounded-full blur-[60px] pointer-events-none" />
-          </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

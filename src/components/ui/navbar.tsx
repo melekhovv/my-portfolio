@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Magnetic } from "./magnetic";
 
@@ -30,18 +30,14 @@ export function Navbar() {
         transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
-          scrolled
-            ? "py-3"
-            : "py-5"
+          scrolled ? "py-3" : "py-5"
         )}
       >
         <div className="max-w-7xl mx-auto px-6">
           <nav
             className={cn(
               "flex items-center justify-between rounded-2xl transition-all duration-500 px-6 py-3",
-              scrolled
-                ? "glass shadow-lg shadow-black/20"
-                : "bg-transparent"
+              scrolled ? "glass shadow-lg shadow-black/20" : "bg-transparent"
             )}
           >
             <a href="#" className="text-heading-sm text-white font-bold tracking-tight">
@@ -75,7 +71,7 @@ export function Navbar() {
             <button
               className="md:hidden relative w-8 h-8 flex items-center justify-center"
               onClick={() => setMobileOpen(!mobileOpen)}
-              aria-label="Toggle menu"
+              aria-label="Открыть меню"
             >
               <div className="flex flex-col gap-1.5">
                 <motion.span
