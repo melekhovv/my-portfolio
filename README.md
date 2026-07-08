@@ -1,227 +1,107 @@
-<div align="center">
+# Andrey Melekhov Portfolio
 
-# 🚀 My Portfolio
+A dark, responsive portfolio website for presenting selected web projects, development approach, and contact options for potential clients.
 
-### Modern Developer Portfolio built with Next.js & TypeScript
+[View Live Website](https://melekhovv-my-portfolio.preview.layero.ru/)
 
-A modern, responsive portfolio website showcasing my projects, skills, and experience as a Frontend Developer.
+![Portfolio homepage preview](public/portfolio-preview.png)
 
-<p>
-  <img src="https://img.shields.io/badge/Next.js-15-black?logo=next.js" />
-  <img src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white" />
-  <img src="https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white" />
-  <img src="https://img.shields.io/badge/TailwindCSS-4-06B6D4?logo=tailwindcss&logoColor=white" />
-  <img src="https://img.shields.io/badge/Framer_Motion-Latest-0055FF?logo=framer" />
-  <img src="https://img.shields.io/badge/License-MIT-success" />
-</p>
+## Overview
 
-<p>
-  <a href="https://your-portfolio.vercel.app"><strong>🌐 Live Demo</strong></a> •
-  <a href="#-features"><strong>Features</strong></a> •
-  <a href="#-tech-stack"><strong>Tech Stack</strong></a> •
-  <a href="#-installation"><strong>Installation</strong></a>
-</p>
+This portfolio is designed to make the first screen useful within a few seconds: visitors can see the developer name, key positioning, project previews, and direct contact actions without digging through the page.
 
-</div>
+The site focuses on:
 
----
+- a strong first-screen portfolio presentation;
+- clean dark visual language with white glow accents;
+- responsive layouts for desktop and mobile;
+- animated interactions powered by Framer Motion;
+- case preview cards and detailed project sections;
+- a clear contact call to action.
 
-# 📸 Preview
+## Tech Stack
 
-<img width="1917" height="942" alt="image" src="https://github.com/user-attachments/assets/f55300a7-5d1b-457b-aea7-d91181436dc1" />
-
-
-
----
-
-# 📖 About
-
-This project is a personal portfolio website designed to present my professional experience, technical skills, and completed projects in a clean and modern way.
-
-The application focuses on performance, responsive design, smooth animations, and intuitive navigation while maintaining a minimalistic visual style.
-
-It serves as both a personal brand website and a demonstration of my frontend development skills.
-
----
-
-# ✨ Features
-
-- 🎨 Modern minimalistic UI
-- 📱 Fully responsive design
-- ⚡ Optimized performance with Next.js
-- 🌙 Dark theme
-- 🎬 Smooth animations powered by Framer Motion
-- 🖼 Interactive project cards
-- 📖 Detailed project modal windows
-- 🧩 Modular component architecture
-- 📬 Contact section
-- 🚀 Production-ready codebase
-
----
-
-# 🛠 Tech Stack
-
-| Category | Technologies |
-|----------|--------------|
-| Framework | Next.js |
+| Area | Technology |
+| --- | --- |
+| Framework | Next.js 14 |
+| UI | React 18 |
 | Language | TypeScript |
-| Library | React |
 | Styling | Tailwind CSS |
-| Animations | Framer Motion |
+| Animation | Framer Motion |
 | Icons | Lucide React |
 | Package Manager | npm |
 
----
+## Features
 
-# 📂 Project Structure
+- Responsive hero section with featured project cards.
+- White cursor glow and hover spotlight effects on interactive elements.
+- Hero-only particle background.
+- Project grid with modal-style case details.
+- About, approach, CTA, and footer sections.
+- Mobile-friendly navigation and layouts.
+- Production-ready Next.js build.
 
-```text
-.
-├── public/
-│   ├── projects/
-│   ├── icons/
-│   └── preview.png
-│
-├── src/
-│   ├── app/
-│   ├── components/
-│   │   ├── layout/
-│   │   ├── sections/
-│   │   └── ui/
-│   ├── data/
-│   ├── hooks/
-│   ├── lib/
-│   └── styles/
-│
-├── .gitignore
-├── package.json
-├── tailwind.config.ts
-├── tsconfig.json
-└── README.md
-```
+## Live Demo
 
----
+The published website is available here:
 
-# 🚀 Installation
+**https://melekhovv-my-portfolio.preview.layero.ru/**
 
-Clone the repository
+## Getting Started
+
+Clone the repository:
 
 ```bash
 git clone https://github.com/melekhovv/my-portfolio.git
-```
-
-Go to the project folder
-
-```bash
 cd my-portfolio
 ```
 
-Install dependencies
+Install dependencies:
 
 ```bash
 npm install
 ```
 
-Run development server
+Run the development server:
 
 ```bash
 npm run dev
 ```
 
-Open your browser:
+Open the local site:
 
-```
+```text
 http://localhost:3000
 ```
 
----
-
-# 🧩 Available Scripts
+## Available Scripts
 
 ```bash
-npm run dev       # Start development server
-
-npm run build     # Production build
-
-npm run start     # Start production server
-
-npm run lint      # Run ESLint
+npm run dev
+npm run build
+npm run start
+npm run lint
 ```
 
----
+## Project Structure
 
-# 💡 Design Principles
+```text
+public/
+  portfolio-preview.png
+  projects/
+src/
+  app/
+  components/ui/
+  data/
+  lib/
+```
 
-The project was built following modern frontend development practices:
+## Contact
 
-- Component-based architecture
-- Reusable UI components
-- Responsive-first layout
-- Clean code principles
-- Accessibility considerations
-- Performance optimization
-- Maintainable folder structure
+- GitHub: [melekhovv](https://github.com/melekhovv)
+- Telegram: [@andrei_melekhov](https://t.me/andrei_melekhov)
+- Email: anrewje@gmail.com
 
----
-
-# 📈 Lighthouse Goals
-
-- ✅ Performance
-- ✅ Accessibility
-- ✅ Best Practices
-- ✅ SEO
-
----
-
-# 📱 Responsive
-
-The website is optimized for:
-
-- 💻 Desktop
-- 💼 Laptop
-- 📱 Mobile
-- 📲 Tablet
-
----
-
-# 🎯 Purpose
-
-The goal of this project is to create a professional online portfolio that effectively showcases my frontend development skills and completed projects to recruiters, clients, and potential employers.
-
----
-
-# 📬 Contact
-
-**GitHub**
-
-https://github.com/melekhovv
-
-**Telegram**
-
-https://t.me/andrei_melekhov
-
-**Email**
-
-anrewje@gmail.com
-
----
-
-# ⭐ Support
-
-If you like this project, consider giving it a ⭐ on GitHub.
-
-It helps the repository become more visible and motivates further development.
-
----
-
-# 📄 License
+## License
 
 This project is licensed under the MIT License.
-
----
-
-<div align="center">
-
-Made with ❤️ using **Next.js**, **React**, **TypeScript** and **Tailwind CSS**
-
-</div>
