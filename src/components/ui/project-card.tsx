@@ -36,7 +36,7 @@ export function ProjectCard({ project, index, onClick }: ProjectCardProps) {
       onClick={onClick}
       className="group cursor-pointer relative"
     >
-      <div className="relative rounded-2xl overflow-hidden glass glow-border transition-all duration-500 group-hover:bg-white/[0.05] group-hover:shadow-2xl group-hover:shadow-white/[0.02]">
+      <div data-spotlight className="spotlight-card relative rounded-2xl overflow-hidden glass glow-border transition-all duration-500 group-hover:bg-white/[0.05] group-hover:shadow-2xl group-hover:shadow-white/[0.02]">
         {/* Project image area */}
         <div className="relative h-52 overflow-hidden">
           <div

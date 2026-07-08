@@ -14,7 +14,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = "primary", size = "default", children, href, ...props }, ref) => {
     const baseStyles =
-      "relative inline-flex items-center justify-center font-medium transition-all duration-300 rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20 disabled:opacity-50 disabled:pointer-events-none";
+      "spotlight-card relative inline-flex items-center justify-center font-medium transition-all duration-300 rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20 disabled:opacity-50 disabled:pointer-events-none";
 
     const variants = {
       primary:
@@ -38,10 +38,13 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         <motion.a
           href={href}
           className={combinedClassName}
+          data-spotlight
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >
-          {children}
+          <span className="relative z-10 inline-flex items-center justify-center gap-[inherit]">
+            {children}
+          </span>
         </motion.a>
       );
     }
@@ -50,11 +53,14 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <motion.button
         ref={ref as React.Ref<HTMLButtonElement>}
         className={combinedClassName}
+        data-spotlight
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
         {...(props as any)}
       >
-        {children}
+        <span className="relative z-10 inline-flex items-center justify-center gap-[inherit]">
+          {children}
+        </span>
       </motion.button>
     );
   }

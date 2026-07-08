@@ -86,7 +86,8 @@ export function Features() {
             <StaggerItem key={feature.title}>
               <motion.div
                 whileHover={{ y: -4 }}
-                className="group relative p-8 rounded-2xl glass glow-border h-full transition-all duration-500 hover:bg-white/[0.04]"
+                data-spotlight
+                className="spotlight-card group relative p-8 rounded-2xl glass glow-border h-full transition-all duration-500 hover:bg-white/[0.04]"
               >
                 <div className="space-y-4">
                   <div className="w-12 h-12 rounded-xl bg-white/[0.04] flex items-center justify-center group-hover:bg-white/[0.08] transition-colors duration-500">
