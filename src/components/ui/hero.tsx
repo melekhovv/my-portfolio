@@ -8,26 +8,26 @@ import { Button } from "./button";
 
 const featuredCases = [
   {
-    title: "Клиника крови",
-    type: "медицинский сервис",
-    metric: "донорство онлайн",
+    title: "Medora",
+    type: "медицинская клиника",
+    metric: "превентивная медицина",
   },
   {
-    title: "BuildEstate",
-    type: "недвижимость",
-    metric: "3D-подбор квартир",
+    title: "Aurora Fjord Lodge",
+    type: "boutique hospitality",
+    metric: "северный lodge",
   },
   {
-    title: "CraftStore",
-    type: "e-commerce",
-    metric: "заказы без Instagram",
+    title: "Civora Labs",
+    type: "climate tech",
+    metric: "городские симуляции",
   },
 ];
 
 const stats = [
-  { value: "30+", label: "проектов" },
+  { value: "3", label: "реальных кейса" },
   { value: "4 года", label: "опыта" },
-  { value: "5 сфер", label: "бизнеса" },
+  { value: "3 сферы", label: "бизнеса" },
 ];
 
 function HeroParticles() {
@@ -187,8 +187,8 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
             className="mt-8 max-w-xl border-t border-white/[0.08] pt-6 text-base leading-7 text-white/62 md:text-lg"
           >
-            Сразу показываю кейсы: интерфейсы, визуальный уровень и бизнес-задачи.
-            За пару секунд понятно, подходит ли вам мой подход.
+            Создаю сайты для бизнеса: продуманная структура, аккуратный интерфейс
+            и понятная подача продукта.
           </motion.p>
 
           <motion.div
@@ -242,21 +242,21 @@ export function Hero() {
               >
                 {index === 0 ? (
                   <Image
-                    src="/projects/project-1.jpg"
-                    alt="Превью проекта Клиника крови"
+                    src="/projects/medora-desktop.png"
+                    alt="Превью проекта Medora"
                     fill
                     priority
-                    className="object-cover opacity-[0.72] transition duration-500 group-hover:scale-105 group-hover:opacity-90"
+                    className="object-cover object-top opacity-[0.5] transition duration-500 group-hover:scale-105 group-hover:opacity-[0.68]"
                     sizes="(max-width: 1024px) 100vw, 520px"
                   />
                 ) : (
                   <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.14),rgba(255,255,255,0.035)_45%,rgba(255,255,255,0.09))]" />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/92 via-black/45 to-black/10" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/98 via-black/72 to-black/35" />
                 <div className="relative flex h-full flex-col justify-between">
                   <div className="flex items-center justify-between gap-4">
                     <span className="text-[10px] uppercase text-white/52">{item.type}</span>
-                    <ArrowUpRight className="h-4 w-4 text-white/55 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white" />
+                    <ArrowUpRight className="h-4 w-4 text-white/55 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white" />
                   </div>
                   <div>
                     <h2 className={index === 0 ? "text-3xl font-semibold text-white" : "text-xl font-semibold text-white"}>

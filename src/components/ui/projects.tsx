@@ -26,29 +26,27 @@ export function Projects() {
 
   return (
     <>
-      <section id="projects" className="py-32 relative">
-        <div className="max-w-7xl mx-auto px-6">
-          {/* Section header */}
-          <div className="max-w-2xl mb-20">
+      <section id="projects" className="relative py-32">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="mb-20 max-w-2xl">
             <Reveal>
-              <span className="text-caption text-text-tertiary uppercase tracking-widest">
+              <span className="text-caption uppercase tracking-widest text-text-tertiary">
                 Портфолио
               </span>
             </Reveal>
             <Reveal delay={0.1}>
-              <h2 className="text-display mt-4">
+              <h2 className="mt-4 text-display">
                 Избранные проекты
               </h2>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-body-lg text-text-secondary mt-5">
+              <p className="mt-5 text-body-lg text-text-secondary">
                 Каждый проект — это решение конкретной бизнес-задачи.
                 Не просто красивые страницы, а инструменты роста.
               </p>
             </Reveal>
           </div>
 
-          {/* Projects grid */}
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -61,7 +59,7 @@ export function Projects() {
                 },
               },
             }}
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+            className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
           >
             {projects.map((project, index) => (
               <ProjectCard

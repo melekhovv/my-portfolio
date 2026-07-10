@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import type { Project } from "@/data/projects";
-import Image from "next/image";
 
 interface ProjectCardProps {
   project: Project;
@@ -34,69 +34,64 @@ export function ProjectCard({ project, index, onClick }: ProjectCardProps) {
       }}
       whileHover={{ y: -6 }}
       onClick={onClick}
-      className="group cursor-pointer relative"
+      className="group relative cursor-pointer"
     >
-      <div data-spotlight className="spotlight-card relative rounded-2xl overflow-hidden glass glow-border transition-all duration-500 group-hover:bg-white/[0.05] group-hover:shadow-2xl group-hover:shadow-white/[0.02]">
-        {/* Project image area */}
+      <div data-spotlight className="spotlight-card relative overflow-hidden rounded-2xl glass glow-border transition-all duration-500 group-hover:bg-white/[0.05] group-hover:shadow-2xl group-hover:shadow-white/[0.02]">
         <div className="relative h-52 overflow-hidden">
           <div
             className="absolute inset-0 transition-transform duration-700 group-hover:scale-105"
             style={{
-              background: `linear-gradient(135deg, hsl(${index * 50 + 200}, 15%, 14%) 0%, hsl(${index * 50 + 230}, 10%, 9%) 100%)`,
+              background: `linear-gradient(135deg, hsl(${index * 38 + 188}, 15%, 14%) 0%, hsl(${index * 38 + 220}, 10%, 9%) 100%)`,
             }}
           />
 
           <Image
             src={project.image}
-            alt={project.title}
+            alt={`Скриншот проекта ${project.title}`}
             fill
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
           />
 
-          {/* Hover overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
-          {/* Status badge */}
-          <div className="absolute top-4 left-4 z-10">
-            <span className={`text-[11px] font-medium px-2.5 py-1 rounded-full ${statusColor[project.status]}`}>
+          <div className="absolute left-4 top-4 z-10">
+            <span className={`rounded-full px-2.5 py-1 text-[11px] font-medium ${statusColor[project.status]}`}>
               {project.status}
             </span>
           </div>
 
-          {/* Year */}
-          <div className="absolute top-4 right-4 z-10">
-            <span className="text-[11px] font-medium px-2.5 py-1 rounded-full bg-white/[0.06] text-text-tertiary">
+          <div className="absolute right-4 top-4 z-10">
+            <span className="rounded-full bg-white/[0.06] px-2.5 py-1 text-[11px] font-medium text-text-tertiary">
               {project.year}
             </span>
           </div>
         </div>
 
-        {/* Content */}
-        <div className="p-6 space-y-4">
+        <div className="space-y-4 p-6">
           <div className="flex items-start justify-between gap-3">
             <div className="space-y-1.5">
-              <h3 className="text-heading-sm text-white group-hover:text-white/90 transition-colors">
+              <h3 className="text-heading-sm text-white transition-colors group-hover:text-white/90">
                 {project.title}
               </h3>
               <p className="text-body-sm text-text-secondary">
                 {project.category}
               </p>
             </div>
-            <div className="w-9 h-9 rounded-xl glass flex items-center justify-center flex-shrink-0 group-hover:bg-white/[0.08] transition-all duration-300">
-              <ArrowUpRight className="w-4 h-4 text-text-tertiary group-hover:text-white transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl glass transition-all duration-300 group-hover:bg-white/[0.08]">
+              <ArrowUpRight className="h-4 w-4 text-text-tertiary transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white" />
             </div>
           </div>
 
-          <p className="text-body-sm text-text-tertiary leading-relaxed line-clamp-2">
+          <p className="line-clamp-2 text-body-sm leading-relaxed text-text-tertiary">
             {project.description}
           </p>
 
-          {/* Stack */}
           <div className="flex flex-wrap gap-2 pt-1">
-            {project.stack.map((tech) => (
+            {project.stack.slice(0, 4).map((tech) => (
               <span
                 key={tech}
-                className="text-[11px] font-medium px-2.5 py-1 rounded-lg bg-white/[0.04] text-text-tertiary transition-colors group-hover:text-text-secondary group-hover:bg-white/[0.06]"
+                className="rounded-lg bg-white/[0.04] px-2.5 py-1 text-[11px] font-medium text-text-tertiary transition-colors group-hover:bg-white/[0.06] group-hover:text-text-secondary"
               >
                 {tech}
               </span>
