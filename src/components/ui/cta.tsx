@@ -42,7 +42,7 @@ export function CTA() {
 
             <Reveal delay={0.3}>
               <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                <Button variant="primary" size="lg" href="https://t.me/username" className="w-full max-w-xs rounded-xl sm:w-auto">
+                <Button variant="primary" size="lg" href="https://t.me/andrei_melekhov" className="w-full max-w-xs rounded-xl sm:w-auto">
                   Написать в Telegram
                   <ArrowUpRight className="h-4 w-4" />
                 </Button>
