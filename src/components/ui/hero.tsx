@@ -8,26 +8,35 @@ import { Button } from "./button";
 
 const featuredCases = [
   {
+    title: "Хочу Пиццы!",
+    type: "ремесленная гастрономия",
+    metric: "пицца из дровяной печи",
+    image: "/projects/hochu-pizza-desktop.png",
+  },
+  {
     title: "Medora",
     type: "медицинская клиника",
     metric: "превентивная медицина",
+    image: "/projects/medora-desktop.png",
   },
   {
     title: "Aurora Fjord Lodge",
     type: "boutique hospitality",
     metric: "северный lodge",
+    image: "/projects/aurora-fjord-lodge-desktop.png",
   },
   {
     title: "Civora Labs",
     type: "climate tech",
     metric: "городские симуляции",
+    image: "/projects/civora-labs-desktop.png",
   },
 ];
 
 const stats = [
-  { value: "3", label: "реальных кейса" },
+  { value: "4", label: "реальных кейса" },
   { value: "4 года", label: "опыта" },
-  { value: "3 сферы", label: "бизнеса" },
+  { value: "4 сферы", label: "бизнеса" },
 ];
 
 function HeroParticles() {
@@ -234,32 +243,24 @@ export function Hero() {
                 key={item.title}
                 href="#projects"
                 data-spotlight
-                className={
-                  index === 0
-                    ? "spotlight-card group relative min-h-72 overflow-hidden rounded-md border border-white/[0.1] bg-white/[0.04] p-5 shadow-[0_0_60px_rgba(255,255,255,0.04)] transition duration-300 hover:-translate-y-1 hover:border-white/25 sm:col-span-2"
-                    : "spotlight-card group relative min-h-44 overflow-hidden rounded-md border border-white/[0.08] bg-white/[0.04] p-5 transition duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.065]"
-                }
+                className="spotlight-card group relative min-h-44 overflow-hidden rounded-md border border-white/[0.08] bg-white/[0.04] p-5 transition duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.065]"
               >
-                {index === 0 ? (
-                  <Image
-                    src="/projects/medora-desktop.png"
-                    alt="Превью проекта Medora"
-                    fill
-                    priority
-                    className="object-cover object-top opacity-[0.5] transition duration-500 group-hover:scale-105 group-hover:opacity-[0.68]"
-                    sizes="(max-width: 1024px) 100vw, 520px"
-                  />
-                ) : (
-                  <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.14),rgba(255,255,255,0.035)_45%,rgba(255,255,255,0.09))]" />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/98 via-black/72 to-black/35" />
+                <Image
+                  src={item.image}
+                  alt={`Превью проекта ${item.title}`}
+                  fill
+                  priority={index < 2}
+                  className="object-cover object-top opacity-[0.4] transition duration-500 group-hover:scale-105 group-hover:opacity-[0.62]"
+                  sizes="(max-width: 1024px) 100vw, 260px"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/98 via-black/75 to-black/35" />
                 <div className="relative flex h-full flex-col justify-between">
                   <div className="flex items-center justify-between gap-4">
                     <span className="text-[10px] uppercase text-white/52">{item.type}</span>
                     <ArrowUpRight className="h-4 w-4 text-white/55 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white" />
                   </div>
                   <div>
-                    <h2 className={index === 0 ? "text-3xl font-semibold text-white" : "text-xl font-semibold text-white"}>
+                    <h2 className="text-xl font-semibold text-white">
                       {item.title}
                     </h2>
                     <p className="mt-1 text-sm text-white/58">{item.metric}</p>

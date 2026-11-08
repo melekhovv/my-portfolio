@@ -6,7 +6,7 @@ import { Github, Send, Mail } from "lucide-react";
 import { Reveal } from "./reveal";
 
 const socialLinks = [
-  { label: "Telegram", href: "https://t.me/andrei_melekhov", icon: Send },
+  { label: "Telegram", href: "https://t.me/melekhovv", icon: Send },
   { label: "GitHub", href: "https://github.com/melekhovv", icon: Github },
   { label: "Email", href: "mailto:anrewje@gmail.com", icon: Mail },
 ];

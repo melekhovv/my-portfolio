@@ -99,7 +99,7 @@ src/
 ## Contact
 
 - GitHub: [melekhovv](https://github.com/melekhovv)
-- Telegram: [@andrei_melekhov](https://t.me/andrei_melekhov)
+- Telegram: [@melekhovv](https://t.me/melekhovv)
 - Email: anrewje@gmail.com
 
 ## License
