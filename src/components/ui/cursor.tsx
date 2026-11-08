@@ -36,15 +36,105 @@ export default function Cursor() {
 
   useEffect(() => {
     const move = (e: MouseEvent) => {
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
+      const clientX = e.clientX;
+      const clientY = e.clientY;
+      mouseX.set(clientX);
+      mouseY.set(clientY);
 
-      const target = (e.target as Element | null)?.closest?.("[data-spotlight]");
-      if (target instanceof HTMLElement) {
-        const rect = target.getBoundingClientRect();
-        target.style.setProperty("--spotlight-x", `${e.clientX - rect.left}px`);
-        target.style.setProperty("--spotlight-y", `${e.clientY - rect.top}px`);
-      }
+      const elements = document.querySelectorAll<HTMLElement>("[data-spotlight]");
+      elements.forEach((el) => {
+        const rect = el.getBoundingClientRect();
+        const padding = 220;
+
+        if (
+          clientX < rect.left - padding ||
+          clientX > rect.right + padding ||
+          clientY < rect.top - padding ||
+          clientY > rect.bottom + padding
+        ) {
+          if (el.style.getPropertyValue("--edge-opacity") !== "0") {
+            el.style.setProperty("--edge-opacity", "0");
+          }
+          return;
+        }
+
+        const w = rect.width;
+        const h = rect.height;
+        const x = clientX - rect.left;
+        const y = clientY - rect.top;
+
+        const computedBorderRadius = parseFloat(window.getComputedStyle(el).borderRadius) || 16;
+        const r = Math.min(computedBorderRadius, w / 2, h / 2);
+
+        const dx = Math.max(0, -x, x - w);
+        const dy = Math.max(0, -y, y - h);
+        const dist = Math.hypot(dx, dy);
+
+        const proximity = 200;
+        const t = Math.max(0, Math.min(1, 1 - dist / proximity));
+        const intensity = t * t * (3 - 2 * t);
+
+        // Project strictly to the edge/rim closest to the cursor
+        let edgeX = x;
+        let edgeY = y;
+
+        if (x < r && y < r) {
+          const angle = Math.atan2(y - r, x - r);
+          edgeX = r + r * Math.cos(angle);
+          edgeY = r + r * Math.sin(angle);
+        } else if (x > w - r && y < r) {
+          const angle = Math.atan2(y - r, x - (w - r));
+          edgeX = w - r + r * Math.cos(angle);
+          edgeY = r + r * Math.sin(angle);
+        } else if (x > w - r && y > h - r) {
+          const angle = Math.atan2(y - (h - r), x - (w - r));
+          edgeX = w - r + r * Math.cos(angle);
+          edgeY = h - r + r * Math.sin(angle);
+        } else if (x < r && y > h - r) {
+          const angle = Math.atan2(y - (h - r), x - r);
+          edgeX = r + r * Math.cos(angle);
+          edgeY = h - r + r * Math.sin(angle);
+        } else if (x < 0) {
+          edgeX = 0;
+          edgeY = Math.max(r, Math.min(h - r, y));
+        } else if (x > w) {
+          edgeX = w;
+          edgeY = Math.max(r, Math.min(h - r, y));
+        } else if (y < 0) {
+          edgeX = Math.max(r, Math.min(w - r, x));
+          edgeY = 0;
+        } else if (y > h) {
+          edgeX = Math.max(r, Math.min(w - r, x));
+          edgeY = h;
+        } else {
+          // Inside: snap to the nearest boundary edge
+          const dTop = y;
+          const dBottom = h - y;
+          const dLeft = x;
+          const dRight = w - x;
+          const minD = Math.min(dTop, dBottom, dLeft, dRight);
+
+          if (minD === dTop) {
+            edgeX = Math.max(r, Math.min(w - r, x));
+            edgeY = 0;
+          } else if (minD === dBottom) {
+            edgeX = Math.max(r, Math.min(w - r, x));
+            edgeY = h;
+          } else if (minD === dLeft) {
+            edgeX = 0;
+            edgeY = Math.max(r, Math.min(h - r, y));
+          } else {
+            edgeX = w;
+            edgeY = Math.max(r, Math.min(h - r, y));
+          }
+        }
+
+        el.style.setProperty("--edge-x", `${edgeX.toFixed(1)}px`);
+        el.style.setProperty("--edge-y", `${edgeY.toFixed(1)}px`);
+        el.style.setProperty("--edge-opacity", intensity.toFixed(3));
+        el.style.setProperty("--spotlight-x", `${x.toFixed(1)}px`);
+        el.style.setProperty("--spotlight-y", `${y.toFixed(1)}px`);
+      });
     };
 
     const enter = () => setHovered(true);

@@ -34,9 +34,9 @@ const featuredCases = [
 ];
 
 const stats = [
-  { value: "4", label: "реальных кейса" },
-  { value: "4 года", label: "опыта" },
-  { value: "4 сферы", label: "бизнеса" },
+  { value: "4", label: "проекта под ключ" },
+  { value: "4+ года", label: "в веб-разработке" },
+  { value: "Fullstack", label: "дизайн и код" },
 ];
 
 function HeroParticles() {
@@ -206,11 +206,21 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
             className="mt-7 flex flex-wrap gap-4"
           >
-            <Button href="#projects" variant="primary" size="lg" className="rounded-md shadow-[0_0_34px_rgba(255,255,255,0.12)]">
+            <Button
+              href="#projects"
+              variant="primary"
+              size="lg"
+              className="w-full sm:w-[220px] justify-center text-center shadow-[0_0_34px_rgba(255,255,255,0.12)]"
+            >
               Посмотреть проекты
               <ArrowDown className="h-4 w-4" />
             </Button>
-            <Button href="#cta" variant="secondary" size="lg" className="rounded-md border-white/[0.12] bg-white/[0.035]">
+            <Button
+              href="#cta"
+              variant="secondary"
+              size="lg"
+              className="w-full sm:w-[220px] justify-center text-center border-white/[0.12] bg-white/[0.035]"
+            >
               Связаться
               <ArrowUpRight className="h-4 w-4" />
             </Button>

@@ -2,66 +2,92 @@
 
 import React from "react";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
+import SpecularButton, { SpecularButtonProps } from "./SpecularButton";
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "ghost";
   size?: "default" | "lg" | "sm";
   children: React.ReactNode;
   href?: string;
+  target?: string;
+  rel?: string;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = "primary", size = "default", children, href, ...props }, ref) => {
-    const baseStyles =
-      "spotlight-card relative inline-flex items-center justify-center font-medium transition-all duration-300 rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20 disabled:opacity-50 disabled:pointer-events-none";
+  (
+    {
+      className,
+      variant = "primary",
+      size = "default",
+      children,
+      href,
+      target,
+      rel,
+      onClick,
+      ...props
+    },
+    ref
+  ) => {
+    const variantStyles = {
+      primary: {
+        tint: "#ffffff",
+        tintOpacity: 0.12,
+        textColor: "#ffffff",
+        lineColor: "#ffffff",
+        baseColor: "#666666",
+        intensity: 1.15,
+        idleIntensity: 0.25,
+        thickness: 1.3,
+        glow: 1.1,
+      },
+      secondary: {
+        tint: "#ffffff",
+        tintOpacity: 0.04,
+        textColor: "#e5e5e5",
+        lineColor: "#ffffff",
+        baseColor: "#404040",
+        intensity: 0.95,
+        idleIntensity: 0.2,
+        thickness: 1.2,
+        glow: 0.8,
+      },
+      ghost: {
+        tint: "#ffffff",
+        tintOpacity: 0.01,
+        textColor: "#a3a3a3",
+        lineColor: "#ffffff",
+        baseColor: "#262626",
+        intensity: 0.7,
+        idleIntensity: 0.1,
+        thickness: 1.0,
+        glow: 0.5,
+      },
+    }[variant];
 
-    const variants = {
-      primary:
-        "bg-white !text-black [&_*]:!text-black [&_svg]:!stroke-black hover:bg-white/90 active:scale-[0.98]",
-      secondary:
-        "glass glass-hover text-white hover:text-white active:scale-[0.98]",
-      ghost:
-        "text-text-secondary hover:text-white hover:bg-white/5 active:scale-[0.98]",
-    };
-
-    const sizes = {
-      sm: "px-4 py-2 text-body-sm gap-2",
-      default: "px-6 py-3 text-body-sm gap-2",
-      lg: "px-8 py-4 text-body gap-3",
-    };
-
-    const combinedClassName = cn(baseStyles, variants[variant], sizes[size], className);
-
-    if (href) {
-      return (
-        <motion.a
-          href={href}
-          className={combinedClassName}
-          data-spotlight
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-        >
-          <span className="relative z-10 inline-flex items-center justify-center gap-[inherit]">
-            {children}
-          </span>
-        </motion.a>
-      );
-    }
+    const sizeMap = {
+      sm: "sm" as const,
+      default: "md" as const,
+      lg: "lg" as const,
+    }[size];
 
     return (
-      <motion.button
-        ref={ref as React.Ref<HTMLButtonElement>}
-        className={combinedClassName}
-        data-spotlight
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
+      <SpecularButton
+        href={href}
+        target={target}
+        rel={rel}
+        size={sizeMap}
+        radius={12}
+        className={cn(
+          "font-medium tracking-tight transition-transform duration-200 active:scale-[0.98]",
+          variant === "primary" && "shadow-[0_0_24px_rgba(255,255,255,0.08)]",
+          className
+        )}
+        onClick={onClick}
+        {...variantStyles}
         {...(props as any)}
       >
-        <span className="relative z-10 inline-flex items-center justify-center gap-[inherit]">
-          {children}
-        </span>
-      </motion.button>
+        {children}
+      </SpecularButton>
     );
   }
 );
