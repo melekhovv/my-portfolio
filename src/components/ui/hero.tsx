@@ -55,8 +55,10 @@ function HeroParticles() {
     let height = 0;
     let mouseX = -1000;
     let mouseY = -1000;
+    let isVisible = true;
+    let canvasRect: DOMRect | null = null;
 
-    const particles = Array.from({ length: reduceMotion ? 28 : 64 }, () => ({
+    const particles = Array.from({ length: reduceMotion ? 24 : 56 }, () => ({
       x: 0,
       y: 0,
       vx: 0,
@@ -74,11 +76,16 @@ function HeroParticles() {
       particle.opacity = Math.random() * 0.22 + 0.08;
     };
 
+    const updateRect = () => {
+      canvasRect = canvas.getBoundingClientRect();
+    };
+
     const resize = () => {
-      const rect = canvas.getBoundingClientRect();
+      updateRect();
+      if (!canvasRect) return;
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      width = rect.width;
-      height = rect.height;
+      width = canvasRect.width;
+      height = canvasRect.height;
       canvas.width = Math.max(1, Math.floor(width * dpr));
       canvas.height = Math.max(1, Math.floor(height * dpr));
       context.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -86,12 +93,15 @@ function HeroParticles() {
     };
 
     const handleMouseMove = (event: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mouseX = event.clientX - rect.left;
-      mouseY = event.clientY - rect.top;
+      if (!canvasRect) updateRect();
+      if (!canvasRect) return;
+      mouseX = event.clientX - canvasRect.left;
+      mouseY = event.clientY - canvasRect.top;
     };
 
     const draw = () => {
+      if (!isVisible) return;
+
       context.clearRect(0, 0, width, height);
 
       particles.forEach((particle) => {
@@ -140,7 +150,7 @@ function HeroParticles() {
         }
       }
 
-      if (!reduceMotion) {
+      if (!reduceMotion && isVisible) {
         frame = requestAnimationFrame(draw);
       }
     };
@@ -148,12 +158,25 @@ function HeroParticles() {
     resize();
     draw();
 
-    window.addEventListener("resize", resize);
-    window.addEventListener("mousemove", handleMouseMove);
+    const observer = new IntersectionObserver(([entry]) => {
+      const wasVisible = isVisible;
+      isVisible = entry.isIntersecting;
+      if (isVisible && !wasVisible && !reduceMotion) {
+        updateRect();
+        frame = requestAnimationFrame(draw);
+      }
+    });
+    observer.observe(canvas);
+
+    window.addEventListener("resize", resize, { passive: true });
+    window.addEventListener("scroll", updateRect, { passive: true });
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
 
     return () => {
       cancelAnimationFrame(frame);
+      observer.disconnect();
       window.removeEventListener("resize", resize);
+      window.removeEventListener("scroll", updateRect);
       window.removeEventListener("mousemove", handleMouseMove);
     };
   }, []);

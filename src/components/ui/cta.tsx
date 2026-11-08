@@ -54,7 +54,7 @@ export function CTA() {
                 <Button
                   variant="secondary"
                   size="lg"
-                  href="mailto:hello@andreymelekhov.com"
+                  href="mailto:anrewje@gmail.com"
                   className="w-full max-w-xs sm:w-[240px] justify-center text-center rounded-xl"
                 >
                   Отправить email

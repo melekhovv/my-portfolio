@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 export default function Cursor() {
   const [hovered, setHovered] = useState(false);
   const [pressed, setPressed] = useState(false);
+  const [enabled, setEnabled] = useState(false);
 
   const mouseX = useMotionValue(-400);
   const mouseY = useMotionValue(-400);
@@ -35,138 +36,201 @@ export default function Cursor() {
   });
 
   useEffect(() => {
-    const move = (e: MouseEvent) => {
-      const clientX = e.clientX;
-      const clientY = e.clientY;
+    // Only activate custom cursor on fine pointer devices (desktop mouse/trackpad)
+    const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
+    if (!hasFinePointer) return;
+
+    setEnabled(true);
+
+    let rafId = 0;
+    let pendingX = -400;
+    let pendingY = -400;
+    let hasMoved = false;
+
+    // Cache elements and their bounding boxes to avoid layout thrashing on mousemove
+    let cachedElements: {
+      el: HTMLElement;
+      rect: DOMRect;
+      radius: number;
+      active: boolean;
+    }[] = [];
+
+    const updateCachedElements = () => {
+      const els = document.querySelectorAll<HTMLElement>("[data-spotlight]");
+      cachedElements = Array.from(els).map((el) => {
+        const rect = el.getBoundingClientRect();
+        const r = parseFloat(window.getComputedStyle(el).borderRadius) || 16;
+        return { el, rect, radius: r, active: false };
+      });
+    };
+
+    updateCachedElements();
+
+    const onScrollOrResize = () => {
+      for (let i = 0; i < cachedElements.length; i++) {
+        cachedElements[i].rect = cachedElements[i].el.getBoundingClientRect();
+      }
+    };
+
+    const updateSpotlights = () => {
+      rafId = 0;
+      if (!hasMoved) return;
+
+      const clientX = pendingX;
+      const clientY = pendingY;
       mouseX.set(clientX);
       mouseY.set(clientY);
 
-      const elements = document.querySelectorAll<HTMLElement>("[data-spotlight]");
-      elements.forEach((el) => {
-        const rect = el.getBoundingClientRect();
-        const padding = 220;
+      const padding = 200;
 
+      for (let i = 0; i < cachedElements.length; i++) {
+        const item = cachedElements[i];
+        const { el, rect, radius } = item;
+
+        // Fast AABB rejection
         if (
           clientX < rect.left - padding ||
           clientX > rect.right + padding ||
           clientY < rect.top - padding ||
           clientY > rect.bottom + padding
         ) {
-          if (el.style.getPropertyValue("--edge-opacity") !== "0") {
+          if (item.active) {
             el.style.setProperty("--edge-opacity", "0");
+            item.active = false;
           }
-          return;
+          continue;
         }
 
         const w = rect.width;
         const h = rect.height;
-        const x = clientX - rect.left;
-        const y = clientY - rect.top;
+        const lx = clientX - rect.left;
+        const ly = clientY - rect.top;
+        const r = Math.min(radius, w / 2, h / 2);
 
-        const computedBorderRadius = parseFloat(window.getComputedStyle(el).borderRadius) || 16;
-        const r = Math.min(computedBorderRadius, w / 2, h / 2);
-
-        const dx = Math.max(0, -x, x - w);
-        const dy = Math.max(0, -y, y - h);
+        const dx = Math.max(0, -lx, lx - w);
+        const dy = Math.max(0, -ly, ly - h);
         const dist = Math.hypot(dx, dy);
 
-        const proximity = 200;
-        const t = Math.max(0, Math.min(1, 1 - dist / proximity));
+        if (dist > padding) {
+          if (item.active) {
+            el.style.setProperty("--edge-opacity", "0");
+            item.active = false;
+          }
+          continue;
+        }
+
+        item.active = true;
+        const t = Math.max(0, Math.min(1, 1 - dist / padding));
         const intensity = t * t * (3 - 2 * t);
 
-        // Project strictly to the edge/rim closest to the cursor
-        let edgeX = x;
-        let edgeY = y;
+        let edgeX = lx;
+        let edgeY = ly;
 
-        if (x < r && y < r) {
-          const angle = Math.atan2(y - r, x - r);
+        if (lx < r && ly < r) {
+          const angle = Math.atan2(ly - r, lx - r);
           edgeX = r + r * Math.cos(angle);
           edgeY = r + r * Math.sin(angle);
-        } else if (x > w - r && y < r) {
-          const angle = Math.atan2(y - r, x - (w - r));
+        } else if (lx > w - r && ly < r) {
+          const angle = Math.atan2(ly - r, lx - (w - r));
           edgeX = w - r + r * Math.cos(angle);
           edgeY = r + r * Math.sin(angle);
-        } else if (x > w - r && y > h - r) {
-          const angle = Math.atan2(y - (h - r), x - (w - r));
+        } else if (lx > w - r && ly > h - r) {
+          const angle = Math.atan2(ly - (h - r), lx - (w - r));
           edgeX = w - r + r * Math.cos(angle);
           edgeY = h - r + r * Math.sin(angle);
-        } else if (x < r && y > h - r) {
-          const angle = Math.atan2(y - (h - r), x - r);
+        } else if (lx < r && ly > h - r) {
+          const angle = Math.atan2(ly - (h - r), lx - r);
           edgeX = r + r * Math.cos(angle);
           edgeY = h - r + r * Math.sin(angle);
-        } else if (x < 0) {
+        } else if (lx < 0) {
           edgeX = 0;
-          edgeY = Math.max(r, Math.min(h - r, y));
-        } else if (x > w) {
+          edgeY = Math.max(r, Math.min(h - r, ly));
+        } else if (lx > w) {
           edgeX = w;
-          edgeY = Math.max(r, Math.min(h - r, y));
-        } else if (y < 0) {
-          edgeX = Math.max(r, Math.min(w - r, x));
+          edgeY = Math.max(r, Math.min(h - r, ly));
+        } else if (ly < 0) {
+          edgeX = Math.max(r, Math.min(w - r, lx));
           edgeY = 0;
-        } else if (y > h) {
-          edgeX = Math.max(r, Math.min(w - r, x));
+        } else if (ly > h) {
+          edgeX = Math.max(r, Math.min(w - r, lx));
           edgeY = h;
         } else {
-          // Inside: snap to the nearest boundary edge
-          const dTop = y;
-          const dBottom = h - y;
-          const dLeft = x;
-          const dRight = w - x;
+          const dTop = ly;
+          const dBottom = h - ly;
+          const dLeft = lx;
+          const dRight = w - lx;
           const minD = Math.min(dTop, dBottom, dLeft, dRight);
 
           if (minD === dTop) {
-            edgeX = Math.max(r, Math.min(w - r, x));
+            edgeX = Math.max(r, Math.min(w - r, lx));
             edgeY = 0;
           } else if (minD === dBottom) {
-            edgeX = Math.max(r, Math.min(w - r, x));
+            edgeX = Math.max(r, Math.min(w - r, lx));
             edgeY = h;
           } else if (minD === dLeft) {
             edgeX = 0;
-            edgeY = Math.max(r, Math.min(h - r, y));
+            edgeY = Math.max(r, Math.min(h - r, ly));
           } else {
             edgeX = w;
-            edgeY = Math.max(r, Math.min(h - r, y));
+            edgeY = Math.max(r, Math.min(h - r, ly));
           }
         }
 
         el.style.setProperty("--edge-x", `${edgeX.toFixed(1)}px`);
         el.style.setProperty("--edge-y", `${edgeY.toFixed(1)}px`);
         el.style.setProperty("--edge-opacity", intensity.toFixed(3));
-        el.style.setProperty("--spotlight-x", `${x.toFixed(1)}px`);
-        el.style.setProperty("--spotlight-y", `${y.toFixed(1)}px`);
-      });
+        el.style.setProperty("--spotlight-x", `${lx.toFixed(1)}px`);
+        el.style.setProperty("--spotlight-y", `${ly.toFixed(1)}px`);
+      }
+    };
+
+    const onMouseMove = (e: MouseEvent) => {
+      pendingX = e.clientX;
+      pendingY = e.clientY;
+      hasMoved = true;
+      if (!rafId) {
+        rafId = requestAnimationFrame(updateSpotlights);
+      }
     };
 
     const enter = () => setHovered(true);
     const leave = () => setHovered(false);
-
     const down = () => setPressed(true);
     const up = () => setPressed(false);
 
-    window.addEventListener("mousemove", move);
-    window.addEventListener("mousedown", down);
-    window.addEventListener("mouseup", up);
+    window.addEventListener("mousemove", onMouseMove, { passive: true });
+    window.addEventListener("mousedown", down, { passive: true });
+    window.addEventListener("mouseup", up, { passive: true });
+    window.addEventListener("scroll", onScrollOrResize, { passive: true });
+    window.addEventListener("resize", onScrollOrResize, { passive: true });
+
+    const observer = new MutationObserver(updateCachedElements);
+    observer.observe(document.body, { childList: true, subtree: true });
 
     const interactive = document.querySelectorAll(
       "a,button,input,textarea,select,[role='button'],[data-spotlight]"
     );
-
     interactive.forEach((el) => {
       el.addEventListener("mouseenter", enter);
       el.addEventListener("mouseleave", leave);
     });
 
     return () => {
-      window.removeEventListener("mousemove", move);
+      if (rafId) cancelAnimationFrame(rafId);
+      observer.disconnect();
+      window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mousedown", down);
       window.removeEventListener("mouseup", up);
-
+      window.removeEventListener("scroll", onScrollOrResize);
+      window.removeEventListener("resize", onScrollOrResize);
       interactive.forEach((el) => {
         el.removeEventListener("mouseenter", enter);
         el.removeEventListener("mouseleave", leave);
       });
     };
   }, [mouseX, mouseY]);
+
+  if (!enabled) return null;
 
   return (
     <>

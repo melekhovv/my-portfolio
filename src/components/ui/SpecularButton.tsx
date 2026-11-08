@@ -295,6 +295,11 @@ export const SpecularButton: React.FC<SpecularButtonProps> = ({
       return rgb;
     };
 
+    let buttonRect: DOMRect | null = null;
+    const updateButtonRect = () => {
+      buttonRect = button.getBoundingClientRect();
+    };
+
     const cornerRadius = (s: typeof settings) => Math.min(s.radius, view.width / 2, view.height / 2);
 
     const restSpot = (s: typeof settings) => {
@@ -305,7 +310,9 @@ export const SpecularButton: React.FC<SpecularButtonProps> = ({
 
     const aim = (s: typeof settings) => {
       if (!s.followMouse || s.disabled || !pointer.known) return null;
-      const rect = button.getBoundingClientRect();
+      if (!buttonRect) updateButtonRect();
+      if (!buttonRect) return null;
+      const rect = buttonRect;
       const scale = rect.width / view.width || 1;
       const halfX = view.width / 2;
       const halfY = view.height / 2;
@@ -383,6 +390,7 @@ export const SpecularButton: React.FC<SpecularButtonProps> = ({
     };
 
     const measure = (entry?: ResizeObserverEntry) => {
+      updateButtonRect();
       const box = entry?.borderBoxSize?.[0];
       view.width = Math.max(1, box ? box.inlineSize : button.offsetWidth);
       view.height = Math.max(1, box ? box.blockSize : button.offsetHeight);
@@ -429,6 +437,7 @@ export const SpecularButton: React.FC<SpecularButtonProps> = ({
       }
     });
     intersection.observe(button);
+    window.addEventListener('scroll', updateButtonRect, { passive: true });
     window.addEventListener('pointermove', onPointerMove, { passive: true });
     window.addEventListener('pointerup', onPointerEnd, { passive: true });
     window.addEventListener('pointercancel', onPointerEnd, { passive: true });
@@ -442,6 +451,7 @@ export const SpecularButton: React.FC<SpecularButtonProps> = ({
       wakeRef.current = null;
       resizeObserver.disconnect();
       intersection.disconnect();
+      window.removeEventListener('scroll', updateButtonRect);
       window.removeEventListener('pointermove', onPointerMove);
       window.removeEventListener('pointerup', onPointerEnd);
       window.removeEventListener('pointercancel', onPointerEnd);

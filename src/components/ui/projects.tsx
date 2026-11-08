@@ -15,12 +15,10 @@ export function Projects() {
   const openProject = (project: Project) => {
     setSelectedProject(project);
     setModalOpen(true);
-    document.body.style.overflow = "hidden";
   };
 
   const closeProject = () => {
     setModalOpen(false);
-    document.body.style.overflow = "";
     setTimeout(() => setSelectedProject(null), 300);
   };
 
