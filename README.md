@@ -2,7 +2,7 @@
 
 A dark, responsive portfolio website for presenting selected web projects, development approach, and contact options for potential clients.
 
-[View Live Website](https://melekhovv-my-portfolio.preview.layero.ru/)
+[View Live Website](https://melekhovv-my-portfolio.layero.app/)
 
 ![Portfolio homepage preview](public/portfolio-preview.png)
 
@@ -13,11 +13,29 @@ This portfolio is designed to make the first screen useful within a few seconds:
 The site focuses on:
 
 - a strong first-screen portfolio presentation;
-- clean dark visual language with white glow accents;
+- clean dark visual language with luminous frosted glass accents;
 - responsive layouts for desktop and mobile;
 - animated interactions powered by Framer Motion;
-- case preview cards and detailed project sections;
+- case preview cards and detailed project modal sections;
 - a clear contact call to action.
+
+## Featured Projects
+
+| Project | Live Demo | Stack |
+| --- | --- | --- |
+| **Хочу Пиццы!**<br>Artisanal Neapolitan & Roman pizza delivery website | [Live Demo](https://simple-spruce-st7nd1qq.preview.layero.app/) | React, TypeScript, Tailwind CSS, Motion |
+| **Medora Medical Platform**<br>Preventive healthcare clinic website | [Live Demo](https://melekhovv-medora-medicine-website.layero.app/) | Next.js, TypeScript, Tailwind CSS, Framer Motion |
+| **Aurora Fjord Lodge**<br>Nordic boutique hospitality & retreat booking | [Live Demo](https://melekhovv-aurora-fjord-lodge.layero.app/) | Next.js, TypeScript, Tailwind CSS, Framer Motion |
+| **Civora Labs**<br>Climate tech platform for urban simulation | [Live Demo](https://melekhovv-civora-labs-site.layero.app/) | Next.js, TypeScript, Tailwind CSS, Data UI |
+
+<p align="center">
+  <img src="public/projects/hochu-pizza-desktop.png" width="49%" alt="Хочу Пиццы! preview" />
+  <img src="public/projects/medora-desktop.png" width="49%" alt="Medora Medical preview" />
+</p>
+<p align="center">
+  <img src="public/projects/aurora-fjord-lodge-desktop.png" width="49%" alt="Aurora Fjord Lodge preview" />
+  <img src="public/projects/civora-labs-desktop.png" width="49%" alt="Civora Labs preview" />
+</p>
 
 ## Tech Stack
 
@@ -89,6 +107,14 @@ npm run lint
 public/
   portfolio-preview.png
   projects/
+    hochu-pizza-desktop.png
+    hochu-pizza-mobile.png
+    medora-desktop.png
+    medora-mobile.png
+    aurora-fjord-lodge-desktop.png
+    aurora-fjord-lodge-mobile.png
+    civora-labs-desktop.png
+    civora-labs-mobile.png
 src/
   app/
   components/ui/
