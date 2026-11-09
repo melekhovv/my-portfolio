@@ -41,21 +41,21 @@ export function CTA() {
             </Reveal>
 
             <Reveal delay={0.3}>
-              <div className="mt-10 flex flex-col items-center justify-center gap-3.5 sm:flex-row">
+              <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
                 <Button
                   variant="primary"
-                  size="default"
+                  size="lg"
                   href="https://t.me/melekhovv"
-                  className="w-full sm:w-auto shadow-[0_0_24px_rgba(255,255,255,0.08)]"
+                  className="w-full sm:w-auto"
                 >
                   Написать в Telegram
                   <ArrowUpRight className="h-4 w-4" />
                 </Button>
                 <Button
                   variant="secondary"
-                  size="default"
+                  size="lg"
                   href="mailto:anrewje@gmail.com"
-                  className="w-full sm:w-auto border-white/[0.12] bg-white/[0.035]"
+                  className="w-full sm:w-auto"
                 >
                   Отправить email
                 </Button>

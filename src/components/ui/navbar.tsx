@@ -64,7 +64,7 @@ export function Navbar() {
               <Magnetic strength={0.15}>
                 <a
                   href="#cta"
-                  className="px-5 py-2.5 text-body-sm font-medium text-black bg-white rounded-xl hover:bg-white/90 transition-all duration-300"
+                  className="px-5 py-2.5 text-body-sm font-medium text-white bg-gradient-to-b from-white/[0.18] to-white/[0.08] hover:from-white/[0.26] hover:to-white/[0.14] border border-white/35 hover:border-white/55 rounded-md transition-all duration-300 shadow-[0_0_24px_rgba(255,255,255,0.12),inset_0_1px_0_0_rgba(255,255,255,0.45)] backdrop-blur-md"
                 >
                   Связаться
                 </a>
@@ -124,7 +124,7 @@ export function Navbar() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
                 onClick={() => setMobileOpen(false)}
-                className="mt-6 w-full max-w-xs text-center py-4 bg-white text-black rounded-2xl font-medium text-body-lg"
+                className="mt-6 w-full max-w-xs text-center py-3.5 text-white bg-gradient-to-b from-white/[0.18] to-white/[0.08] border border-white/35 rounded-md font-medium text-body-lg shadow-[0_0_30px_rgba(255,255,255,0.15),inset_0_1px_0_0_rgba(255,255,255,0.45)] backdrop-blur-md"
               >
                 Связаться
               </motion.a>

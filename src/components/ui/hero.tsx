@@ -227,13 +227,13 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-            className="mt-7 flex flex-wrap gap-3.5"
+            className="mt-7 flex flex-wrap gap-4"
           >
             <Button
               href="#projects"
               variant="primary"
-              size="default"
-              className="w-full sm:w-auto shadow-[0_0_24px_rgba(255,255,255,0.08)]"
+              size="lg"
+              className="w-full sm:w-auto"
             >
               Посмотреть проекты
               <ArrowDown className="h-4 w-4" />
@@ -241,8 +241,8 @@ export function Hero() {
             <Button
               href="#cta"
               variant="secondary"
-              size="default"
-              className="w-full sm:w-auto border-white/[0.12] bg-white/[0.035]"
+              size="lg"
+              className="w-full sm:w-auto"
             >
               Связаться
               <ArrowUpRight className="h-4 w-4" />
