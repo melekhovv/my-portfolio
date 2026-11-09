@@ -29,7 +29,7 @@ export const projects: Project[] = [
       "Проект объединил ресторанный имидж и высокую конверсию: интуитивная фильтрация позиций, интерактивная корзина с промокодами и лаконичная форма бронирования столика за 30 секунд.",
     stack: ["React", "TypeScript", "Tailwind CSS", "Motion", "UX Architecture"],
     status: "Завершен",
-    url: "https://shiny-lagoon-ombsbutz.preview.layero.app/",
+    url: "https://simple-spruce-st7nd1qq.preview.layero.app/",
     image: "/projects/hochu-pizza-desktop.png",
     gallery: [
       "/projects/hochu-pizza-desktop.png",
