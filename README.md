@@ -45,7 +45,7 @@ The site focuses on:
 
 The published website is available here:
 
-**https://melekhovv-my-portfolio.preview.layero.ru/**
+**https://melekhovv-my-portfolio.layero.app/**
 
 ## Getting Started
 

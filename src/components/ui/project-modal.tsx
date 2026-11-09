@@ -208,13 +208,15 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
                     </div>
                   </div>
 
-                  <div className="flex flex-col gap-4 pt-4 sm:flex-row">
+                  <div className="flex flex-col gap-3.5 pt-4 sm:flex-row">
                     {project.url && (
                       <Button
                         variant="primary"
-                        size="lg"
+                        size="default"
                         href={project.url}
-                        className="w-full sm:w-44 justify-center text-center"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full sm:w-auto"
                       >
                         Открыть сайт
                         <ExternalLink className="h-4 w-4" />
@@ -222,9 +224,9 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
                     )}
                     <Button
                       variant="secondary"
-                      size="lg"
+                      size="default"
                       onClick={onClose}
-                      className="w-full sm:w-44 justify-center text-center"
+                      className="w-full sm:w-auto"
                     >
                       Закрыть
                     </Button>

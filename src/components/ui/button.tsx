@@ -29,7 +29,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const baseStyles =
-      "spotlight-card relative inline-flex items-center justify-center font-medium transition-all duration-300 rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20 disabled:opacity-50 disabled:pointer-events-none active:scale-[0.98] cursor-pointer";
+      "spotlight-card relative inline-flex items-center justify-center font-medium transition-all duration-300 rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20 disabled:opacity-50 disabled:pointer-events-none active:scale-[0.98] cursor-pointer whitespace-nowrap select-none";
 
     const variants = {
       primary:
@@ -41,9 +41,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     };
 
     const sizes = {
-      sm: "px-4 py-2 text-body-sm gap-2",
-      default: "px-6 py-3 text-body-sm gap-2",
-      lg: "px-8 py-4 text-body gap-3",
+      sm: "h-9 px-3.5 text-xs gap-1.5",
+      default: "h-11 px-5 text-sm gap-2",
+      lg: "h-11 sm:h-12 px-5 sm:px-6 text-sm gap-2",
     };
 
     const combinedClassName = cn(baseStyles, variants[variant], sizes[size], className);
