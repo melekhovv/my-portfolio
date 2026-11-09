@@ -2,7 +2,7 @@
 
 import React from "react";
 import { cn } from "@/lib/utils";
-import SpecularButton, { SpecularButtonProps } from "./SpecularButton";
+import { motion } from "framer-motion";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "ghost";
@@ -28,66 +28,59 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    const variantStyles = {
-      primary: {
-        tint: "#ffffff",
-        tintOpacity: 0.12,
-        textColor: "#ffffff",
-        lineColor: "#ffffff",
-        baseColor: "#666666",
-        intensity: 1.15,
-        idleIntensity: 0.25,
-        thickness: 1.3,
-        glow: 1.1,
-      },
-      secondary: {
-        tint: "#ffffff",
-        tintOpacity: 0.04,
-        textColor: "#e5e5e5",
-        lineColor: "#ffffff",
-        baseColor: "#404040",
-        intensity: 0.95,
-        idleIntensity: 0.2,
-        thickness: 1.2,
-        glow: 0.8,
-      },
-      ghost: {
-        tint: "#ffffff",
-        tintOpacity: 0.01,
-        textColor: "#a3a3a3",
-        lineColor: "#ffffff",
-        baseColor: "#262626",
-        intensity: 0.7,
-        idleIntensity: 0.1,
-        thickness: 1.0,
-        glow: 0.5,
-      },
-    }[variant];
+    const baseStyles =
+      "spotlight-card relative inline-flex items-center justify-center font-medium transition-all duration-300 rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20 disabled:opacity-50 disabled:pointer-events-none active:scale-[0.98] cursor-pointer";
 
-    const sizeMap = {
-      sm: "sm" as const,
-      default: "md" as const,
-      lg: "lg" as const,
-    }[size];
+    const variants = {
+      primary:
+        "bg-white/[0.08] hover:bg-white/[0.12] text-white border border-white/[0.14] shadow-[0_0_24px_rgba(255,255,255,0.08)]",
+      secondary:
+        "bg-white/[0.035] hover:bg-white/[0.06] text-[#e5e5e5] hover:text-white border border-white/[0.10] hover:border-white/20",
+      ghost:
+        "text-text-secondary hover:text-white hover:bg-white/5 border border-transparent",
+    };
+
+    const sizes = {
+      sm: "px-4 py-2 text-body-sm gap-2",
+      default: "px-6 py-3 text-body-sm gap-2",
+      lg: "px-8 py-4 text-body gap-3",
+    };
+
+    const combinedClassName = cn(baseStyles, variants[variant], sizes[size], className);
+
+    if (href) {
+      return (
+        <motion.a
+          href={href}
+          target={target}
+          rel={rel}
+          className={combinedClassName}
+          data-spotlight
+          onClick={onClick as any}
+          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <span className="relative z-10 inline-flex items-center justify-center gap-[inherit] w-full">
+            {children}
+          </span>
+        </motion.a>
+      );
+    }
 
     return (
-      <SpecularButton
-        href={href}
-        target={target}
-        rel={rel}
-        size={sizeMap}
-        radius={12}
-        className={cn(
-          "font-medium tracking-tight transition-transform duration-200 active:scale-[0.98]",
-          variant === "primary" && "shadow-[0_0_24px_rgba(255,255,255,0.08)]",
-          className
-        )}
+      <motion.button
+        ref={ref as React.Ref<HTMLButtonElement>}
+        className={combinedClassName}
+        data-spotlight
         onClick={onClick}
-        {...variantStyles}
+        whileHover={{ scale: 1.01 }}
+        whileTap={{ scale: 0.98 }}
         {...(props as any)}
       >
-        {children}
-      </SpecularButton>
+        <span className="relative z-10 inline-flex items-center justify-center gap-[inherit] w-full">
+          {children}
+        </span>
+      </motion.button>
     );
   }
 );

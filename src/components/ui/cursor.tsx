@@ -36,7 +36,7 @@ export default function Cursor() {
   });
 
   useEffect(() => {
-    // Only activate custom cursor on fine pointer devices (desktop mouse/trackpad)
+    // Only enable custom cursor on fine pointer devices (desktop mouse/trackpad)
     const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
     if (!hasFinePointer) return;
 
@@ -45,167 +45,40 @@ export default function Cursor() {
     let rafId = 0;
     let pendingX = -400;
     let pendingY = -400;
-    let hasMoved = false;
+    let pendingTarget: Element | null = null;
 
-    // Cache elements and their bounding boxes to avoid layout thrashing on mousemove
-    let cachedElements: {
-      el: HTMLElement;
-      rect: DOMRect;
-      radius: number;
-      active: boolean;
-    }[] = [];
-
-    const updateCachedElements = () => {
-      const els = document.querySelectorAll<HTMLElement>("[data-spotlight]");
-      cachedElements = Array.from(els).map((el) => {
-        const rect = el.getBoundingClientRect();
-        const r = parseFloat(window.getComputedStyle(el).borderRadius) || 16;
-        return { el, rect, radius: r, active: false };
-      });
-    };
-
-    updateCachedElements();
-
-    const onScrollOrResize = () => {
-      for (let i = 0; i < cachedElements.length; i++) {
-        cachedElements[i].rect = cachedElements[i].el.getBoundingClientRect();
-      }
-    };
-
-    const updateSpotlights = () => {
+    const updateCursor = () => {
       rafId = 0;
-      if (!hasMoved) return;
+      mouseX.set(pendingX);
+      mouseY.set(pendingY);
 
-      const clientX = pendingX;
-      const clientY = pendingY;
-      mouseX.set(clientX);
-      mouseY.set(clientY);
-
-      const padding = 200;
-
-      for (let i = 0; i < cachedElements.length; i++) {
-        const item = cachedElements[i];
-        const { el, rect, radius } = item;
-
-        // Fast AABB rejection
-        if (
-          clientX < rect.left - padding ||
-          clientX > rect.right + padding ||
-          clientY < rect.top - padding ||
-          clientY > rect.bottom + padding
-        ) {
-          if (item.active) {
-            el.style.setProperty("--edge-opacity", "0");
-            item.active = false;
-          }
-          continue;
-        }
-
-        const w = rect.width;
-        const h = rect.height;
-        const lx = clientX - rect.left;
-        const ly = clientY - rect.top;
-        const r = Math.min(radius, w / 2, h / 2);
-
-        const dx = Math.max(0, -lx, lx - w);
-        const dy = Math.max(0, -ly, ly - h);
-        const dist = Math.hypot(dx, dy);
-
-        if (dist > padding) {
-          if (item.active) {
-            el.style.setProperty("--edge-opacity", "0");
-            item.active = false;
-          }
-          continue;
-        }
-
-        item.active = true;
-        const t = Math.max(0, Math.min(1, 1 - dist / padding));
-        const intensity = t * t * (3 - 2 * t);
-
-        let edgeX = lx;
-        let edgeY = ly;
-
-        if (lx < r && ly < r) {
-          const angle = Math.atan2(ly - r, lx - r);
-          edgeX = r + r * Math.cos(angle);
-          edgeY = r + r * Math.sin(angle);
-        } else if (lx > w - r && ly < r) {
-          const angle = Math.atan2(ly - r, lx - (w - r));
-          edgeX = w - r + r * Math.cos(angle);
-          edgeY = r + r * Math.sin(angle);
-        } else if (lx > w - r && ly > h - r) {
-          const angle = Math.atan2(ly - (h - r), lx - (w - r));
-          edgeX = w - r + r * Math.cos(angle);
-          edgeY = h - r + r * Math.sin(angle);
-        } else if (lx < r && ly > h - r) {
-          const angle = Math.atan2(ly - (h - r), lx - r);
-          edgeX = r + r * Math.cos(angle);
-          edgeY = h - r + r * Math.sin(angle);
-        } else if (lx < 0) {
-          edgeX = 0;
-          edgeY = Math.max(r, Math.min(h - r, ly));
-        } else if (lx > w) {
-          edgeX = w;
-          edgeY = Math.max(r, Math.min(h - r, ly));
-        } else if (ly < 0) {
-          edgeX = Math.max(r, Math.min(w - r, lx));
-          edgeY = 0;
-        } else if (ly > h) {
-          edgeX = Math.max(r, Math.min(w - r, lx));
-          edgeY = h;
-        } else {
-          const dTop = ly;
-          const dBottom = h - ly;
-          const dLeft = lx;
-          const dRight = w - lx;
-          const minD = Math.min(dTop, dBottom, dLeft, dRight);
-
-          if (minD === dTop) {
-            edgeX = Math.max(r, Math.min(w - r, lx));
-            edgeY = 0;
-          } else if (minD === dBottom) {
-            edgeX = Math.max(r, Math.min(w - r, lx));
-            edgeY = h;
-          } else if (minD === dLeft) {
-            edgeX = 0;
-            edgeY = Math.max(r, Math.min(h - r, ly));
-          } else {
-            edgeX = w;
-            edgeY = Math.max(r, Math.min(h - r, ly));
-          }
-        }
-
-        el.style.setProperty("--edge-x", `${edgeX.toFixed(1)}px`);
-        el.style.setProperty("--edge-y", `${edgeY.toFixed(1)}px`);
-        el.style.setProperty("--edge-opacity", intensity.toFixed(3));
-        el.style.setProperty("--spotlight-x", `${lx.toFixed(1)}px`);
-        el.style.setProperty("--spotlight-y", `${ly.toFixed(1)}px`);
+      // Old spotlight logic: only track the element currently under the cursor
+      const target = pendingTarget?.closest?.("[data-spotlight]");
+      if (target instanceof HTMLElement) {
+        const rect = target.getBoundingClientRect();
+        target.style.setProperty("--spotlight-x", `${pendingX - rect.left}px`);
+        target.style.setProperty("--spotlight-y", `${pendingY - rect.top}px`);
       }
     };
 
-    const onMouseMove = (e: MouseEvent) => {
+    const move = (e: MouseEvent) => {
       pendingX = e.clientX;
       pendingY = e.clientY;
-      hasMoved = true;
+      pendingTarget = e.target as Element | null;
       if (!rafId) {
-        rafId = requestAnimationFrame(updateSpotlights);
+        rafId = requestAnimationFrame(updateCursor);
       }
     };
 
     const enter = () => setHovered(true);
     const leave = () => setHovered(false);
+
     const down = () => setPressed(true);
     const up = () => setPressed(false);
 
-    window.addEventListener("mousemove", onMouseMove, { passive: true });
+    window.addEventListener("mousemove", move, { passive: true });
     window.addEventListener("mousedown", down, { passive: true });
     window.addEventListener("mouseup", up, { passive: true });
-    window.addEventListener("scroll", onScrollOrResize, { passive: true });
-    window.addEventListener("resize", onScrollOrResize, { passive: true });
-
-    const observer = new MutationObserver(updateCachedElements);
-    observer.observe(document.body, { childList: true, subtree: true });
 
     const interactive = document.querySelectorAll(
       "a,button,input,textarea,select,[role='button'],[data-spotlight]"
@@ -217,12 +90,10 @@ export default function Cursor() {
 
     return () => {
       if (rafId) cancelAnimationFrame(rafId);
-      observer.disconnect();
-      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mousemove", move);
       window.removeEventListener("mousedown", down);
       window.removeEventListener("mouseup", up);
-      window.removeEventListener("scroll", onScrollOrResize);
-      window.removeEventListener("resize", onScrollOrResize);
+
       interactive.forEach((el) => {
         el.removeEventListener("mouseenter", enter);
         el.removeEventListener("mouseleave", leave);

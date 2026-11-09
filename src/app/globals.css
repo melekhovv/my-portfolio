@@ -122,9 +122,6 @@
   }
 
   .spotlight-card {
-    --edge-x: 50%;
-    --edge-y: 0px;
-    --edge-opacity: 0;
     --spotlight-x: 50%;
     --spotlight-y: 50%;
     isolation: isolate;
@@ -138,20 +135,20 @@
     position: absolute;
     inset: 0;
     border-radius: inherit;
+    opacity: 0;
     pointer-events: none;
-    transition: opacity 220ms ease;
+    transition: opacity 260ms ease, border-color 260ms ease;
   }
 
   .spotlight-card::before {
     z-index: 1;
     background:
       radial-gradient(
-        220px circle at var(--edge-x, var(--spotlight-x)) var(--edge-y, var(--spotlight-y)),
+        220px circle at var(--spotlight-x) var(--spotlight-y),
         rgba(255, 255, 255, 0.08) 0%,
         rgba(255, 255, 255, 0.02) 42%,
         transparent 72%
       );
-    opacity: var(--edge-opacity, 0);
     mix-blend-mode: screen;
   }
 
@@ -160,7 +157,7 @@
     padding: 1.5px;
     background:
       radial-gradient(
-        160px circle at var(--edge-x, var(--spotlight-x)) var(--edge-y, var(--spotlight-y)),
+        160px circle at var(--spotlight-x) var(--spotlight-y),
         rgba(255, 255, 255, 0.95) 0%,
         rgba(255, 255, 255, 0.38) 32%,
         rgba(255, 255, 255, 0.06) 62%,
@@ -170,12 +167,11 @@
     -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
     mask-composite: exclude;
     -webkit-mask-composite: xor;
-    opacity: var(--edge-opacity, 0);
   }
 
   .spotlight-card:hover::before,
   .spotlight-card:hover::after {
-    opacity: max(var(--edge-opacity, 0), 0.85);
+    opacity: 1;
   }
 
   @media (prefers-reduced-motion: reduce) {
